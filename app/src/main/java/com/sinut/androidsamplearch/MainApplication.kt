@@ -1,0 +1,7 @@
+package com.sinut.androidsamplearch
+
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
+
+@HiltAndroidApp
+class MainApplication: Application()
