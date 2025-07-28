@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.devtools.ksp)
 
     kotlin("plugin.serialization") version "2.0.21"
+
+    id("kotlin-parcelize")
 }
 
 android {

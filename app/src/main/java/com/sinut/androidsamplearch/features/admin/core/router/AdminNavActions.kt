@@ -1,6 +1,5 @@
 package com.sinut.androidsamplearch.features.admin.core.router
 
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.sinut.androidsamplearch.core.router.INavAction
 import com.sinut.androidsamplearch.features.admin.details.presentation.models.AdminDetailsScreenArgs
@@ -8,15 +7,17 @@ import com.sinut.androidsamplearch.features.admin.details.presentation.models.Ad
 class AdminNavActions(private val navController: NavHostController) : INavAction {
 
     fun goToAdminList() {
-        navController.navigate(AdminListRoute) {
-            popUpTo(navController.graph.findStartDestination().id) {
-                inclusive = true
-                saveState = false
-            }
-        }
+        navController.navigate(AdminListRoute)
     }
 
     fun pushToAdminDetails(params: AdminDetailsScreenArgs) {
+        println("push to details")
         navController.navigate(AdminDetailsRoute(params))
+    }
+
+    fun popBackStack() {
+        println("pop back stack")
+        navController.popBackStack()
+
     }
 }

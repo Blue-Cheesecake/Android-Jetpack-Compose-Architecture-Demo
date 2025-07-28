@@ -1,9 +1,9 @@
 package com.sinut.androidsamplearch.features.admin.core.router
 
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.sinut.androidsamplearch.core.router.parcelableType
 import com.sinut.androidsamplearch.features.admin.details.presentation.models.AdminDetailsScreenArgs
 import com.sinut.androidsamplearch.features.admin.details.presentation.pages.AdminDetailsScreen
 import com.sinut.androidsamplearch.features.admin.list.presentation.pages.AdminListScreen
@@ -14,10 +14,10 @@ fun NavGraphBuilder.adminDestination(navActions: AdminNavActions) {
 
     composable<AdminDetailsRoute>(
         typeMap = mapOf(
-            typeOf<AdminDetailsScreenArgs>() to NavType.EnumType(AdminDetailsScreenArgs::class.java)
+            typeOf<AdminDetailsScreenArgs>() to parcelableType<AdminDetailsScreenArgs>()
         )
     ) {
         val route = it.toRoute<AdminDetailsRoute>()
-        AdminDetailsScreen(route.params)
+        AdminDetailsScreen(route.params, navActions)
     }
 }
