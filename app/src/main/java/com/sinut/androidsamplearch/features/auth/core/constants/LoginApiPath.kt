@@ -1,3 +1,5 @@
+package com.sinut.androidsamplearch.features.auth.core.constants
+
 object LoginApiPath {
-    const val login = "/api/v1/login"
+    const val LOGIN = "/api/v1/login"
 }

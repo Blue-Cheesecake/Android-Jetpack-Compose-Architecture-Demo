@@ -7,16 +7,18 @@ import com.sinut.androidsamplearch.features.admin.details.presentation.models.Ad
 class AdminNavActions(private val navController: NavHostController) : INavAction {
 
     fun goToAdminList() {
-        navController.navigate(AdminListRoute)
+        navController.navigate(AdminListRoute) {
+            popUpTo(0) {
+                inclusive = true
+            }
+        }
     }
 
     fun pushToAdminDetails(params: AdminDetailsScreenArgs) {
-        println("push to details")
         navController.navigate(AdminDetailsRoute(params))
     }
 
     fun popBackStack() {
-        println("pop back stack")
         navController.popBackStack()
 
     }

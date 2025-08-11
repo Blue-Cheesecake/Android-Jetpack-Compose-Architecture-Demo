@@ -107,6 +107,7 @@ dependencies {
     // Dependencies Injection - Hilt
     implementation(libs.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
     // Navigation
     implementation(libs.androidx.navigation.compose)

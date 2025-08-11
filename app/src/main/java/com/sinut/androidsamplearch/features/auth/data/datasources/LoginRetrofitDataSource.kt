@@ -1,6 +1,6 @@
 package com.sinut.androidsamplearch.features.auth.data.datasources
 
-import LoginApiPath
+import com.sinut.androidsamplearch.features.auth.core.constants.LoginApiPath
 import com.sinut.androidsamplearch.features.auth.data.models.LoginRequestModel
 import com.sinut.androidsamplearch.features.auth.data.models.LoginResponseModel
 import retrofit2.Retrofit
@@ -9,7 +9,7 @@ import retrofit2.http.POST
 import javax.inject.Inject
 
 private interface ILoginRetrofit {
-    @POST(LoginApiPath.login)
+    @POST(LoginApiPath.LOGIN)
     suspend fun login(@Body request: LoginRequestModel): LoginResponseModel
 }
 
