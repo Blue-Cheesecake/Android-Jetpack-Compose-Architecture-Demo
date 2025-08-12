@@ -1,5 +1,6 @@
+package com.sinut.androidsamplearch.features.auth.presentation.logic.input
+
 import com.sinut.androidsamplearch.core.base.BaseViewModel
-import com.sinut.androidsamplearch.features.auth.presentation.logic.input.LoginInputState
 
 class LoginInputViewModel : BaseViewModel<LoginInputState>(LoginInputState()) {
 

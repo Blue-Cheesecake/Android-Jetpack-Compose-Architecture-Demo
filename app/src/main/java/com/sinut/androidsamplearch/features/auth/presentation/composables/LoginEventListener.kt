@@ -13,6 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.sinut.androidsamplearch.core.session.AppSession
+import com.sinut.androidsamplearch.core.session.data.models.UserSessionModel
 import com.sinut.androidsamplearch.features.admin.core.router.AdminNavActions
 import com.sinut.androidsamplearch.features.auth.presentation.logic.api.LoginApiState
 import com.sinut.androidsamplearch.features.auth.presentation.logic.api.LoginApiViewModel
@@ -28,7 +30,20 @@ fun LoginEventListener(
     LaunchedEffect(loginApiState.value) {
         when (loginApiState.value) {
             is LoginApiState.Success -> {
+                val s = loginApiState.value as LoginApiState.Success
+
+                loginViewModel.invalidate()
+                AppSession.userSession = UserSessionModel(s.token)
+
                 navActions.goToAdminList()
+            }
+
+            is LoginApiState.Error -> {
+                val s = loginApiState.value as LoginApiState.Error
+                
+                println(s)
+
+                loginViewModel.invalidate()
             }
 
             else -> Unit

@@ -13,6 +13,9 @@ abstract class BaseUseCase<P, R> {
         } catch (e: HttpException) {
             // Will throw on non 2xx status
             return Result.failure(Exception(e.message))
+        } catch (e: Exception) {
+            println("e: $e")
+            return Result.failure(Exception(e.message))
         }
     }
 }
