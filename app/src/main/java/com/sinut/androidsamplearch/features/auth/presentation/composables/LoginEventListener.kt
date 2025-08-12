@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.sinut.androidsamplearch.common.composables.CommonDialog
 import com.sinut.androidsamplearch.core.session.AppSession
 import com.sinut.androidsamplearch.core.session.data.models.UserSessionModel
 import com.sinut.androidsamplearch.features.admin.core.router.AdminNavActions
@@ -38,22 +39,14 @@ fun LoginEventListener(
                 navActions.goToAdminList()
             }
 
-            is LoginApiState.Error -> {
-                val s = loginApiState.value as LoginApiState.Error
-                
-                println(s)
-
-                loginViewModel.invalidate()
-            }
-
             else -> Unit
         }
     }
 
     child()
 
-    if (loginApiState.value == LoginApiState.Loading) {
-        Box(
+    when (loginApiState.value) {
+        LoginApiState.Loading -> Box(
             Modifier
                 .fillMaxSize()
                 .background(Color.Black.copy(alpha = 0.5F))
@@ -62,5 +55,18 @@ fun LoginEventListener(
         ) {
             CircularProgressIndicator()
         }
+
+        is LoginApiState.Error -> {
+            val errMsg = (loginApiState.value as LoginApiState.Error).message
+
+            CommonDialog(
+                onDismissRequest = { loginViewModel.invalidate() },
+                onConfirmation = { loginViewModel.invalidate() },
+                dialogTitle = "Error",
+                dialogText = errMsg,
+            )
+        }
+
+        else -> Unit
     }
 }
