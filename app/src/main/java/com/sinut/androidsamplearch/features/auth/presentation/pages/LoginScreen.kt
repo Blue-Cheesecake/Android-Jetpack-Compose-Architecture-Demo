@@ -25,7 +25,7 @@ import com.sinut.androidsamplearch.features.auth.presentation.composables.LoginF
 import com.sinut.androidsamplearch.features.auth.presentation.logic.api.LoginApiViewModel
 import com.sinut.androidsamplearch.features.auth.presentation.logic.input.LoginInputViewModel
 import com.sinut.androidsamplearch.features.auth.presentation.logic.validation.LoginValidationViewModel
-import com.sinut.androidsamplearch.ui.theme.Purple80
+import com.sinut.androidsamplearch.ui.theme.primaryContainerLight
 
 @Composable
 fun LoginScreen(
@@ -67,7 +67,7 @@ fun LoginScreen(
                     },
                     shape = RoundedCornerShape(8),
                     colors = ButtonDefaults.elevatedButtonColors().copy(
-                        containerColor = Purple80
+                        containerColor = primaryContainerLight
                     ),
                     elevation = null,
                 ) {

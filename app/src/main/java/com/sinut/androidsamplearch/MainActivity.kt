@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.example.compose.AppTheme
 import com.sinut.androidsamplearch.core.router.AppNavHost
-import com.sinut.androidsamplearch.ui.theme.AndroidSampleArchTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -14,7 +14,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            AndroidSampleArchTheme {
+            AppTheme {
+
                 AppNavHost()
             }
         }
