@@ -3,8 +3,8 @@ package com.sinut.androidsamplearch.features.auth.presentation.logic.api
 import androidx.lifecycle.viewModelScope
 import com.sinut.androidsamplearch.core.base.BaseViewModel
 import com.sinut.androidsamplearch.core.constants.CommonMessage
-import com.sinut.androidsamplearch.features.auth.data.models.LoginRequestModel
-import com.sinut.androidsamplearch.features.auth.domain.usecases.LoginUseCase
+import com.sinut.core_data.api.auth.data.models.LoginRequestModel
+import com.sinut.core_data.api.auth.domain.usecases.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

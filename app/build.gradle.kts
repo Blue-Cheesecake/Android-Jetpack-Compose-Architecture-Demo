@@ -1,5 +1,3 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -14,7 +12,6 @@ plugins {
 }
 
 android {
-    val localProperties = gradleLocalProperties(rootDir, providers)
     namespace = "com.sinut.androidsamplearch"
     compileSdk = 35
 
@@ -24,26 +21,16 @@ android {
             dimension = "flavor-type"
             applicationId = "com.sinut.androidsamplearch.dev"
             buildConfigField("String", "FLAVOR", "\"Dev\"")
-            buildConfigField(
-                "String", "BASE_URL", "\"${localProperties.getProperty("dev.BASE_URL")}\""
-            )
         }
         create("stg") {
             dimension = "flavor-type"
             applicationId = "com.sinut.androidsamplearch.stg"
             buildConfigField("String", "FLAVOR", "\"Stg\"")
-            buildConfigField(
-                "String", "BASE_URL", "\"${localProperties.getProperty("stg.BASE_URL")}\""
-            )
-
         }
         create("prd") {
             dimension = "flavor-type"
             applicationId = "com.sinut.androidsamplearch.prd"
             buildConfigField("String", "FLAVOR", "\"Prd\"")
-            buildConfigField(
-                "String", "BASE_URL", "\"${localProperties.getProperty("prd.BASE_URL")}\""
-            )
         }
     }
 
@@ -114,7 +101,6 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
 
-    // Network
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter)
+    // Local
+    implementation(project(":core_data"))
 }

@@ -20,4 +20,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "AndroidSampleArch"
+
 include(":app")
+include(":core_data")

@@ -11,8 +11,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.sinut.androidsamplearch.features.admin.core.router.AdminNavActions
 import com.sinut.androidsamplearch.features.admin.core.router.adminDestination
-import com.sinut.androidsamplearch.features.auth.core.router.AuthNavRoutePath
-import com.sinut.androidsamplearch.features.auth.core.router.authDestination
+import com.sinut.androidsamplearch.features.auth.router.AuthNavRoutePath
+import com.sinut.androidsamplearch.features.auth.router.authDestination
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
