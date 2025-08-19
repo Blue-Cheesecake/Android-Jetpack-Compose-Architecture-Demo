@@ -36,20 +36,16 @@ fun CommonDialog(
                 Text("Confirm")
             }
         },
-        dismissButton = {
-            TextButton(
-                onClick = {
-                    onDismissRequest()
-                }
-            ) {
-                Text("Dismiss")
-            }
-        }
     )
 }
 
 @Preview
 @Composable
 private fun CommonDialogPreview() {
-
+    CommonDialog(
+        onConfirmation = {},
+        onDismissRequest = {},
+        dialogTitle = "Dialog Title",
+        dialogText = "dialog text"
+    )
 }

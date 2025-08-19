@@ -12,6 +12,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import com.sinut.androidsamplearch.ui.theme.primaryLight
 
 @Composable
 fun CommonTextField(
@@ -20,6 +21,7 @@ fun CommonTextField(
     placeHolder: String? = null,
     errorText: String? = null,
     hideText: Boolean = false,
+    containerColor: Color = Color.White,
 ) {
     OutlinedTextField(
         value = value,
@@ -33,8 +35,11 @@ fun CommonTextField(
         },
         shape = RoundedCornerShape(8.dp),
         colors = TextFieldDefaults.colors(
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
+            unfocusedContainerColor = containerColor,
+            focusedContainerColor = containerColor,
+            errorContainerColor = containerColor,
+            focusedIndicatorColor = primaryLight,
+            unfocusedIndicatorColor = Color.Gray,
         ),
         isError = errorText != null,
         supportingText = {
