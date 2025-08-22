@@ -101,6 +101,9 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
 
+    // Icon
+    implementation(libs.androidx.material.icons.extended)
+
     // Local
     implementation(project(":core_data"))
 }

@@ -1,6 +1,7 @@
 package com.sinut.androidsamplearch.features.auth.presentation.pages
 
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,16 +38,17 @@ fun LoginScreen(
                         })
                     }
                     .padding(innerPadding)
-                    .padding(horizontal = 14.dp),
             ) {
                 Spacer(Modifier.weight(0.5F))
-                LoginCard(
-                    onClickSignIn = {
-                        localFocusManager.clearFocus()
-                    }, onFormValid = {
-                        loginApiViewModel.login(it.username, it.password)
-                    }
-                )
+                Box(Modifier.padding(horizontal = 20.dp)) {
+                    LoginCard(
+                        onClickSignIn = {
+                            localFocusManager.clearFocus()
+                        }, onFormValid = {
+                            loginApiViewModel.login(it.username, it.password)
+                        }
+                    )
+                }
                 Spacer(Modifier.weight(1F))
                 SignUpTitle(onClickSignUp = {})
                 Spacer(Modifier.height(24.dp))

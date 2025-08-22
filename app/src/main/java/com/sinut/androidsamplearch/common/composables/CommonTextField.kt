@@ -22,6 +22,7 @@ fun CommonTextField(
     errorText: String? = null,
     hideText: Boolean = false,
     containerColor: Color = Color.White,
+    suffix: @Composable (() -> Unit)? = null
 ) {
     OutlinedTextField(
         value = value,
@@ -47,6 +48,7 @@ fun CommonTextField(
                 Text(errorText, style = TextStyle(color = Color.Red))
             }
         },
-        visualTransformation = if (hideText) PasswordVisualTransformation() else VisualTransformation.None
+        visualTransformation = if (hideText) PasswordVisualTransformation() else VisualTransformation.None,
+        suffix = suffix
     )
 }
