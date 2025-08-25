@@ -1,4 +1,4 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.library)
@@ -14,30 +14,48 @@ android {
     namespace = "com.sinut.core_data"
     compileSdk = 35
 
-    val localProperties = gradleLocalProperties(rootDir, providers)
+    val localProperties = Properties()
 
     flavorDimensions += "flavor-type"
     productFlavors {
         create("dev") {
+            val propertiesFile = File(rootDir, "dev.properties")
+
+            if (propertiesFile.exists() && propertiesFile.isFile) {
+                propertiesFile.inputStream().use { localProperties.load(it) }
+            }
+
             dimension = "flavor-type"
             buildConfigField("String", "FLAVOR", "\"Dev\"")
             buildConfigField(
-                "String", "BASE_URL", "\"${localProperties.getProperty("dev.BASE_URL")}\""
+                "String", "BASE_URL", "\"${localProperties.getProperty("BASE_URL")}\""
             )
         }
         create("stg") {
+            val propertiesFile = File(rootDir, "stg.properties")
+
+            if (propertiesFile.exists() && propertiesFile.isFile) {
+                propertiesFile.inputStream().use { localProperties.load(it) }
+            }
+
             dimension = "flavor-type"
             buildConfigField("String", "FLAVOR", "\"Stg\"")
             buildConfigField(
-                "String", "BASE_URL", "\"${localProperties.getProperty("stg.BASE_URL")}\""
+                "String", "BASE_URL", "\"${localProperties.getProperty("BASE_URL")}\""
             )
 
         }
         create("prd") {
+            val propertiesFile = File(rootDir, "prd.properties")
+
+            if (propertiesFile.exists() && propertiesFile.isFile) {
+                propertiesFile.inputStream().use { localProperties.load(it) }
+            }
+
             dimension = "flavor-type"
             buildConfigField("String", "FLAVOR", "\"Prd\"")
             buildConfigField(
-                "String", "BASE_URL", "\"${localProperties.getProperty("prd.BASE_URL")}\""
+                "String", "BASE_URL", "\"${localProperties.getProperty("BASE_URL")}\""
             )
         }
     }

@@ -2,7 +2,6 @@ package com.sinut.androidsamplearch.features.auth.presentation.composables
 
 import android.graphics.Color
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -42,8 +41,7 @@ fun LoginCard(
         modifier = Modifier
             .shadow(5.dp)
             .background(onSecondaryLight, shape = RoundedCornerShape(8.dp))
-            .padding(20.dp)
-        ,
+            .padding(20.dp),
         horizontalAlignment = Alignment.Start,
     ) {
         Text(
