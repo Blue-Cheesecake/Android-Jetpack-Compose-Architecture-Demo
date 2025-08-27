@@ -1,0 +1,1 @@
+class UnknownException : Exception("An unknown exception has occurred")

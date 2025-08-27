@@ -1,5 +1,6 @@
 package com.sinut.core_data.core.base
 
+import UnknownException
 import com.sinut.core_data.core.data.models.CommonErrorResponseModel
 import kotlinx.serialization.json.Json
 import retrofit2.HttpException
@@ -11,16 +12,12 @@ abstract class BaseUseCase<P, R> {
     suspend fun execute(params: P): Result<R> {
         val result = runCatching<R> {
             val response = call(params)
-            return Result.success(response)
+            response
         }
 
-        return result
-            .onFailure {
-                return handleException(it)
-            }
-            .onSuccess {
-                return result
-            }
+        return result.onFailure {
+            return handleException(it)
+        }
     }
 
     private fun <T> handleException(e: Throwable): Result<T> {
@@ -30,9 +27,17 @@ abstract class BaseUseCase<P, R> {
             val rawErrorString = errorBody?.string()
 
             if (rawErrorString != null) {
-                val model = Json.decodeFromString<CommonErrorResponseModel>(rawErrorString)
+                val modelResult = runCatching<CommonErrorResponseModel> {
+                    Json.decodeFromString<CommonErrorResponseModel>(rawErrorString)
+                }
 
-                return Result.failure(Exception(model.message))
+                modelResult
+                    .onSuccess {
+                        return Result.failure(Exception(it.message))
+                    }
+                    .onFailure {
+                        return Result.failure(UnknownException())
+                    }
             }
         }
 
