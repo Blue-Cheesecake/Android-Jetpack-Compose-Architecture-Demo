@@ -9,6 +9,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
 import retrofit2.Retrofit
 
 @Module
@@ -16,16 +17,19 @@ import retrofit2.Retrofit
 object LoginModule {
 
     @Provides
+    @ViewModelScoped
     fun provideLoginDataSource(retrofit: Retrofit): ILoginDataSource {
         return LoginRetrofitDataSource(retrofit)
     }
 
     @Provides
+    @ViewModelScoped
     fun provideLoginRepository(dataSource: ILoginDataSource): ILoginRepository {
         return LoginRepository(dataSource)
     }
 
     @Provides
+    @ViewModelScoped
     fun provideLoginUseCase(repository: ILoginRepository): LoginUseCase {
         return LoginUseCase(repository)
     }
