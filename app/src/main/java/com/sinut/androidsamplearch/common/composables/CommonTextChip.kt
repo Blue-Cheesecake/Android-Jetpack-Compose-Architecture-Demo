@@ -28,8 +28,8 @@ fun CommonTextChip(
         Modifier
             .clip(CircleShape)
             .background(if (!isSelected) Color.Gray.copy(alpha = 0.2f) else primaryContainerLight)
-            .padding(horizontal = 12.dp, vertical = 6.dp)
             .clickable(onClick = onClick)
+            .padding(horizontal = 12.dp, vertical = 6.dp)
     ) {
         Text(
             text,

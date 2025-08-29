@@ -9,13 +9,27 @@ class AvartarFilterInputViewModel : BaseViewModel<AvartarFilterInputState>(Avart
 
     fun updateSearchText(value: String?) = setState(uiState.value.copy(searchText = value))
 
-    fun addStatus(value: AvartarStatus) = setState(uiState.value.copy(status = uiState.value.status.plus(value)))
+    fun onInitialStatus() = setState(uiState.value.copy(tempStatus = uiState.value.status.toList()))
 
-    fun removeStatus(value: AvartarStatus) = setState(uiState.value.copy(status = uiState.value.status.minus(value)))
+    fun onAddStatus(value: AvartarStatus) =
+        setState(uiState.value.copy(tempStatus = uiState.value.tempStatus.plus(value)))
 
-    fun addPet(value: AvartarPet) = setState(uiState.value.copy(pets = uiState.value.pets.plus(value)))
+    fun onRemoveStatus(value: AvartarStatus) =
+        setState(uiState.value.copy(tempStatus = uiState.value.tempStatus.minus(value)))
 
-    fun removePet(value: AvartarPet) = setState(uiState.value.copy(pets = uiState.value.pets.minus(value)))
+    fun onApplyStatus() = setState(uiState.value.copy(status = uiState.value.tempStatus.toList()))
+
+    fun onCancelStatus() = setState(uiState.value.copy(tempStatus = emptyList()))
+
+    fun onInitialPet() = setState(uiState.value.copy(tempPets = uiState.value.pets.toList()))
+
+    fun onAddPet(value: AvartarPet) = setState(uiState.value.copy(tempPets = uiState.value.tempPets.plus(value)))
+
+    fun onRemovePet(value: AvartarPet) = setState(uiState.value.copy(tempPets = uiState.value.tempPets.minus(value)))
+
+    fun onApplyPet() = setState(uiState.value.copy(pets = uiState.value.tempPets.toList()))
+
+    fun onCancelPet() = setState(uiState.value.copy(tempPets = emptyList()))
 
     fun buildFindAllAvartarsQueries(): FindAllAvartarQueriesRequestModel {
         val status = uiState.value.status.joinToString(",")

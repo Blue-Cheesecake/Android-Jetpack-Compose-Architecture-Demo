@@ -6,13 +6,17 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -34,6 +38,7 @@ fun <T : CommonLabelItem> AvartarFilterBottomSheet(
     onAddItem: (T) -> Unit,
     onRemoveItem: (T) -> Unit,
     onDismissBottomSheet: () -> Unit,
+    onClickApply: () -> Unit,
 ) {
     ModalBottomSheet(
         modifier = Modifier.fillMaxHeight(),
@@ -65,12 +70,12 @@ fun <T : CommonLabelItem> AvartarFilterBottomSheet(
                 CommonOutlinedButton(
                     modifier = Modifier.weight(0.5F),
                     text = CommonUiMessages.CANCEL,
-                    onClick = {},
+                    onClick = onDismissBottomSheet,
                 )
                 CommonElevatedButton(
                     modifier = Modifier.weight(0.5F),
                     text = CommonUiMessages.APPLY,
-                    onClick = {}
+                    onClick = onClickApply,
                 )
             }
             Spacer(Modifier.weight(1F))
@@ -82,17 +87,25 @@ fun <T : CommonLabelItem> AvartarFilterBottomSheet(
 @Preview(name = "Idle")
 @Composable
 private fun AvartarFilterBottomSheetIdlePreview() {
+    var selectedItems by remember { mutableStateOf<List<AvartarStatus>>(emptyList()) }
+    val sheetState = rememberStandardBottomSheetState(
+        skipHiddenState = true,
+        confirmValueChange = { false },
+    )
+
     AvartarFilterBottomSheet(
-        sheetState = rememberStandardBottomSheetState(
-            skipHiddenState = true,
-            confirmValueChange = { false },
-        ),
+        sheetState = sheetState,
         label = "Status",
         itemsLabel = AvartarStatus.entries,
-        selectedItems = emptyList(),
-        onAddItem = {},
-        onRemoveItem = {},
+        selectedItems = selectedItems,
+        onAddItem = {
+            selectedItems = selectedItems.plus(it)
+        },
+        onRemoveItem = {
+            selectedItems = selectedItems.minus(it)
+        },
         onDismissBottomSheet = {},
+        onClickApply = {},
     )
 }
 
@@ -100,13 +113,31 @@ private fun AvartarFilterBottomSheetIdlePreview() {
 @Preview(name = "Selected")
 @Composable
 private fun AvartarFilterBottomSheetSelectedPreview() {
+    var selectedItems by remember {
+        mutableStateOf<List<AvartarStatus>>(
+            listOf(
+                AvartarStatus.SINGLE,
+                AvartarStatus.COUPLE
+            )
+        )
+    }
+    val sheetState = rememberStandardBottomSheetState(
+        skipHiddenState = true,
+        confirmValueChange = { false },
+    )
+
     AvartarFilterBottomSheet(
-        sheetState = rememberStandardBottomSheetState(confirmValueChange = { false }),
+        sheetState = sheetState,
         label = "Status",
         itemsLabel = AvartarStatus.entries,
-        selectedItems = listOf(AvartarStatus.SINGLE, AvartarStatus.COUPLE),
-        onAddItem = {},
-        onRemoveItem = {},
+        selectedItems = selectedItems,
+        onAddItem = {
+            selectedItems = selectedItems.plus(it)
+        },
+        onRemoveItem = {
+            selectedItems = selectedItems.minus(it)
+        },
         onDismissBottomSheet = {},
+        onClickApply = {},
     )
 }

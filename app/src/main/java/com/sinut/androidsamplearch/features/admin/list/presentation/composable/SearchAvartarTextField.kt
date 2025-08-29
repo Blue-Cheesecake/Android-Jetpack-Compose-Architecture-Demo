@@ -37,6 +37,7 @@ fun SearchAvartarTextField(value: String?, onValueChanged: (String?) -> Unit) {
                 )
             )
         },
+        textStyle = TextStyle(fontSize = 14.sp),
         singleLine = true,
         modifier = Modifier
             .height(45.dp)
@@ -60,7 +61,7 @@ private fun SearchAvartarTextFieldOnEmptyPreview() {
 private fun SearchAvartarTextFieldOnTextPreview() {
     Box(modifier = Modifier.padding(8.dp)) {
         SearchAvartarTextField(
-            value = "hello world",
+            value = "hello world eiei",
             onValueChanged = {}
         )
     }

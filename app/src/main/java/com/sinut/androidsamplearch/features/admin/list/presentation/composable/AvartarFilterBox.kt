@@ -1,5 +1,8 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -8,8 +11,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,10 +37,19 @@ fun <T : CommonLabelItem> AvartarFilterBox(
     label: String,
     items: List<T>,
     selectedItems: List<T>,
+    tempSelectedItems: List<T>,
+    onInitialBottomSheet: () -> Unit,
     onAddItem: (T) -> Unit,
     onRemoveItem: (T) -> Unit,
+    onApply: () -> Unit,
+    onCancel: () -> Unit,
 ) {
     val isSelected = selectedItems.isNotEmpty()
+    val sheetState = rememberStandardBottomSheetState(
+        skipHiddenState = true,
+        confirmValueChange = { false },
+    )
+    var showBottomSheet by remember { mutableStateOf(false) }
 
     Box(
         Modifier
@@ -42,6 +60,13 @@ fun <T : CommonLabelItem> AvartarFilterBox(
                 color = if (!isSelected) Color.Black else Color.Transparent,
                 shape = RoundedCornerShape(4.dp)
             )
+            .clickable {
+                showBottomSheet = !showBottomSheet
+
+                if (showBottomSheet) {
+                    onInitialBottomSheet()
+                }
+            }
             .padding(horizontal = 8.dp, vertical = 4.dp)
             .width(120.dp),
     ) {
@@ -64,6 +89,25 @@ fun <T : CommonLabelItem> AvartarFilterBox(
             Text(label, fontSize = 16.sp, color = if (isSelected) Color.White else Color.Black)
         }
     }
+
+    if (showBottomSheet) {
+        AvartarFilterBottomSheet(
+            sheetState = sheetState,
+            label = label,
+            itemsLabel = items,
+            selectedItems = tempSelectedItems,
+            onAddItem = onAddItem,
+            onRemoveItem = onRemoveItem,
+            onDismissBottomSheet = {
+                showBottomSheet = false
+                onCancel()
+            },
+            onClickApply = {
+                showBottomSheet = false
+                onApply()
+            }
+        )
+    }
 }
 
 @Preview(name = "Idle", showBackground = true)
@@ -76,8 +120,12 @@ private fun AvartarFilterBoxOnIdlePreview() {
             label = "Status",
             items = AvartarStatus.entries,
             selectedItems = emptyList(),
+            tempSelectedItems = emptyList(),
             onAddItem = {},
             onRemoveItem = {},
+            onInitialBottomSheet = {},
+            onCancel = {},
+            onApply = {},
         )
     }
 }
@@ -91,9 +139,13 @@ private fun AvartarFilterBoxOnSelectedPreview() {
         AvartarFilterBox(
             label = "Status",
             items = AvartarStatus.entries,
-            selectedItems = listOf(AvartarStatus.COUPLE, AvartarStatus.SINGLE),
+            tempSelectedItems = listOf(AvartarStatus.COUPLE, AvartarStatus.SINGLE),
+            selectedItems = emptyList(),
             onAddItem = {},
             onRemoveItem = {},
+            onInitialBottomSheet = {},
+            onCancel = {},
+            onApply = {},
         )
     }
 }
