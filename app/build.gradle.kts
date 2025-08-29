@@ -101,9 +101,13 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
 
-    // Icon
+    // Ui
     implementation(libs.androidx.material.icons.extended)
+    implementation(libs.compose.shimmer)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 
     // Local
     implementation(project(":core_data"))
+
 }

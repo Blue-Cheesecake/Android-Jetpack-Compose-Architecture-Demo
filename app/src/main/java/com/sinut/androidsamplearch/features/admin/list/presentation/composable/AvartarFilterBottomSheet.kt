@@ -114,7 +114,7 @@ private fun AvartarFilterBottomSheetIdlePreview() {
 @Composable
 private fun AvartarFilterBottomSheetSelectedPreview() {
     var selectedItems by remember {
-        mutableStateOf<List<AvartarStatus>>(
+        mutableStateOf(
             listOf(
                 AvartarStatus.SINGLE,
                 AvartarStatus.COUPLE

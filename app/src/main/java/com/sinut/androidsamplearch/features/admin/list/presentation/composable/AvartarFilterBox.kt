@@ -139,8 +139,8 @@ private fun AvartarFilterBoxOnSelectedPreview() {
         AvartarFilterBox(
             label = "Status",
             items = AvartarStatus.entries,
-            tempSelectedItems = listOf(AvartarStatus.COUPLE, AvartarStatus.SINGLE),
-            selectedItems = emptyList(),
+            tempSelectedItems = emptyList(),
+            selectedItems = listOf(AvartarStatus.COUPLE, AvartarStatus.SINGLE),
             onAddItem = {},
             onRemoveItem = {},
             onInitialBottomSheet = {},
