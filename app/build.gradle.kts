@@ -42,6 +42,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+    }
+
+    androidResources {
+        // Localization
+        localeFilters += setOf("en", "th")
     }
 
     buildTypes {
@@ -88,6 +94,9 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Compat
+    implementation(libs.androidx.appcompat)
 
     // State Management - ViewModel
     implementation(libs.androidx.lifecycle.viewmodel.compose)

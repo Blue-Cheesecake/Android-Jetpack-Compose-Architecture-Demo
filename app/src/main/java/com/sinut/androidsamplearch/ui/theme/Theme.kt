@@ -112,4 +112,3 @@ fun AppTheme(
         content = content
     )
 }
-

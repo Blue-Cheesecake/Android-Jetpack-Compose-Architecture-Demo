@@ -2,6 +2,7 @@ package com.sinut.androidsamplearch.features.auth.presentation.composables
 
 import android.graphics.Color
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,12 +16,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.sinut.androidsamplearch.R
 import com.sinut.androidsamplearch.features.auth.constants.AuthMessage
 import com.sinut.androidsamplearch.features.auth.presentation.logic.input.LoginInputState
 import com.sinut.androidsamplearch.features.auth.presentation.logic.input.LoginInputViewModel
@@ -64,7 +67,8 @@ fun LoginCard(
                 onClickSignIn()
 
                 val input = loginInputViewModel.uiState.value
-                val isFormValid = loginValidationViewModel.validate(loginInputViewModel.uiState.value)
+                val isFormValid =
+                    loginValidationViewModel.validate(loginInputViewModel.uiState.value)
 
                 if (isFormValid) {
                     onFormValid(input)
@@ -77,7 +81,7 @@ fun LoginCard(
             elevation = null,
         ) {
             Text(
-                AuthMessage.SIGNIN_BUTTON_TITLE, style = TextStyle(
+                stringResource(R.string.home_tabbar), style = TextStyle(
                     fontSize = 16.sp,
                     color = onSecondaryLight
                 )
@@ -86,12 +90,14 @@ fun LoginCard(
     }
 }
 
-@Preview(backgroundColor = Color.GRAY.toLong(), showBackground = true)
+@Preview(backgroundColor = Color.GRAY.toLong(), showBackground = true, locale = "en")
+@Preview(backgroundColor = Color.GRAY.toLong(), showBackground = true, locale = "th")
 @Composable
 private fun LoginCardPreview() {
-
-    LoginCard(
-        onClickSignIn = {},
-        onFormValid = {}
-    )
+    Box(Modifier.padding(12.dp)) {
+        LoginCard(
+            onClickSignIn = {},
+            onFormValid = {}
+        )
+    }
 }
