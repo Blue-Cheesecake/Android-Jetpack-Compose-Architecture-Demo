@@ -1,6 +1,5 @@
 package com.sinut.androidsamplearch.core.router
 
-interface IAppRoutePath {
+interface IdentifiableScreen {
     val routeName: String
-    val path: String
 }
