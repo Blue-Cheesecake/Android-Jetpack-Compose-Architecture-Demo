@@ -13,10 +13,12 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -35,6 +37,11 @@ fun LoginScreen(
     loginApiViewModel: LoginApiViewModel = hiltViewModel(),
 ) {
     val localFocusManager = LocalFocusManager.current
+    LocalContext.current
+
+    LaunchedEffect(Unit) {
+        println("Screen1 launched")
+    }
 
     LoginEventListener(navActions, loginApiViewModel) {
         Scaffold { innerPadding ->
@@ -73,7 +80,11 @@ fun LoginScreen(
                     println(LocaleListCompat.forLanguageTags("en"))
                     println(LocaleListCompat.forLanguageTags("th"))
                     println(AppCompatDelegate.getApplicationLocales())
-                    println(AppCompatDelegate.getApplicationLocales().toLanguageTags())
+                    println(
+                        "Default: ${
+                            AppCompatDelegate.getApplicationLocales().toLanguageTags()
+                        }"
+                    )
                 }) {
                     Text("List Languages")
                 }
@@ -82,10 +93,19 @@ fun LoginScreen(
                     val currentLang = AppCompatDelegate.getApplicationLocales()
 
                     if (currentLang.toLanguageTags() == "en") {
-                        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("th"))
+                        AppCompatDelegate.setApplicationLocales(
+                            LocaleListCompat.forLanguageTags(
+                                "th"
+                            )
+                        )
                     } else {
-                        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("en"))
+                        AppCompatDelegate.setApplicationLocales(
+                            LocaleListCompat.forLanguageTags(
+                                "en"
+                            )
+                        )
                     }
+
                     println("Current: ${AppCompatDelegate.getApplicationLocales()}")
                 }) {
                     Text("Change Language")

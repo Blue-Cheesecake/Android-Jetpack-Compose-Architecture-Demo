@@ -7,11 +7,7 @@ import com.sinut.androidsamplearch.features.admin.details.presentation.models.Ad
 class AdminNavActions(private val navController: NavHostController) : INavAction {
 
     fun goToAdminList() {
-        navController.navigate(AdminListRoute) {
-            popUpTo(0) {
-                inclusive = true
-            }
-        }
+        navController.navigate(AdminListRoute)
     }
 
     fun pushToAdminDetails(params: AdminDetailsScreenArgs) {

@@ -1,6 +1,7 @@
 package com.sinut.androidsamplearch.features.admin.list.presentation.pages
 
 import AvartarFilterBox
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,20 +11,25 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.os.LocaleListCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.sinut.androidsamplearch.R
 import com.sinut.androidsamplearch.features.admin.core.router.AdminNavActions
 import com.sinut.androidsamplearch.features.admin.list.constants.AvartarListMessages
 import com.sinut.androidsamplearch.features.admin.list.presentation.composable.SearchAvartarTextField
@@ -40,6 +46,10 @@ fun AdminListScreen(
     avartarFilterInputViewModel: AvartarFilterInputViewModel = viewModel(),
 ) {
     val localFocusManager = LocalFocusManager.current
+
+    LaunchedEffect(Unit) {
+        println("Screen2 launched")
+    }
 
     Scaffold(
         modifier = Modifier
@@ -63,7 +73,8 @@ fun AdminListScreen(
         ) {
             Box(Modifier.padding(horizontal = 18.dp)) {
                 Column {
-                    val searchText = avartarFilterInputViewModel.uiState.collectAsStateWithLifecycle().value.searchText
+                    val searchText =
+                        avartarFilterInputViewModel.uiState.collectAsStateWithLifecycle().value.searchText
 
                     SearchAvartarTextField(
                         value = searchText,
@@ -72,7 +83,8 @@ fun AdminListScreen(
                     Spacer(Modifier.height(18.dp))
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                         item {
-                            val inputState = avartarFilterInputViewModel.uiState.collectAsStateWithLifecycle()
+                            val inputState =
+                                avartarFilterInputViewModel.uiState.collectAsStateWithLifecycle()
 
                             AvartarFilterBox(
                                 label = AvartarListMessages.STATUS_FILTER_LABEL,
@@ -87,7 +99,8 @@ fun AdminListScreen(
                             )
                         }
                         item {
-                            val inputState = avartarFilterInputViewModel.uiState.collectAsStateWithLifecycle()
+                            val inputState =
+                                avartarFilterInputViewModel.uiState.collectAsStateWithLifecycle()
 
                             AvartarFilterBox(
                                 label = AvartarListMessages.PETS_FILTER_LABEL,
@@ -101,6 +114,28 @@ fun AdminListScreen(
                                 onCancel = { avartarFilterInputViewModel.onCancelPet() },
                             )
                         }
+                    }
+                    Spacer(Modifier.height(24.dp))
+                    Text("Translated Text: ${stringResource(R.string.home_tabbar)}")
+                    Button({
+                        val currentLang = AppCompatDelegate.getApplicationLocales()
+
+                        if (currentLang.toLanguageTags() == "en") {
+                            AppCompatDelegate.setApplicationLocales(
+                                LocaleListCompat.forLanguageTags(
+                                    "th"
+                                )
+                            )
+                        } else {
+                            AppCompatDelegate.setApplicationLocales(
+                                LocaleListCompat.forLanguageTags(
+                                    "en"
+                                )
+                            )
+                        }
+                        println("Current: ${AppCompatDelegate.getApplicationLocales()}")
+                    }) {
+                        Text("Change Language")
                     }
                 }
             }
