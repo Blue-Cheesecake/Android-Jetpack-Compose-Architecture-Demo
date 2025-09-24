@@ -1,5 +1,7 @@
 package com.sinut.androidsamplearch.features.auth.presentation.pages
 
+import android.annotation.SuppressLint
+import android.provider.Settings
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -33,6 +35,7 @@ import com.sinut.androidsamplearch.features.auth.presentation.composables.SignUp
 import com.sinut.androidsamplearch.features.auth.presentation.logic.api.EnableBioAuthState
 import com.sinut.androidsamplearch.features.auth.presentation.logic.api.LoginViewModel
 
+@SuppressLint("HardwareIds")
 @Composable
 fun LoginScreen(
     navActions: AdminNavActions,
@@ -47,6 +50,7 @@ fun LoginScreen(
 
     LoginEventListener(navActions, loginApiViewModel) {
         val loginUiState = loginApiViewModel.uiState.collectAsStateWithLifecycle()
+        val context = LocalContext.current
 
         Scaffold { innerPadding ->
             Image(
@@ -116,6 +120,15 @@ fun LoginScreen(
                 }
                 Spacer(Modifier.height(8.dp))
                 Button({
+                    println(
+                        Settings.Secure.getString(
+                            context.contentResolver, Settings.Secure.ANDROID_ID
+                        )
+                    )
+                }) {
+                    Text("Log ANDROID_ID")
+                }
+                Button({
                     loginApiViewModel.enableBiometric()
                 }) {
                     Text("Enable Biometric Auth")
@@ -131,7 +144,10 @@ fun LoginScreen(
                     }
 
                     is EnableBioAuthState.Success -> {
+                        val response =
+                            loginUiState.value.enableBioAuthState as EnableBioAuthState.Success
                         Text("Biometric auth enabled successfully")
+                        Text("biometric id ${response.result.result.biometricId}")
                     }
 
                     is EnableBioAuthState.Error -> {

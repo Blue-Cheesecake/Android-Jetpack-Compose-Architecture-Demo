@@ -41,12 +41,28 @@ class LoginViewModel @Inject constructor(
     fun invalidate() = setState { it.copy(loginApiState = LoginApiState.Idle) }
 
     fun enableBiometric() {
-        setState { it.copy(loginApiState = LoginApiState.Loading) }
+        setState { it.copy(enableBioAuthState = EnableBioAuthState.Loading) }
 
         viewModelScope.launch {
             enableBiometricAuthUseCase.execute(Unit)
-                .onSuccess { }
-                .onFailure { }
+                .onSuccess { response ->
+                    setState {
+                        it.copy(
+                            enableBioAuthState = EnableBioAuthState.Success(
+                                response
+                            )
+                        )
+                    }
+                }
+                .onFailure { err ->
+                    setState {
+                        it.copy(
+                            enableBioAuthState = EnableBioAuthState.Error(
+                                err.message ?: CommonMessage.SOMETHING_WRONG
+                            )
+                        )
+                    }
+                }
         }
     }
 }
