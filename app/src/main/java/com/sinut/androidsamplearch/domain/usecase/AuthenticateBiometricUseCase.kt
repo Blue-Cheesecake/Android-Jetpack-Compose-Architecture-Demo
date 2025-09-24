@@ -1,0 +1,3 @@
+package com.sinut.androidsamplearch.domain.usecase
+
+class AuthenticateBiometricUseCase
