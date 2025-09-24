@@ -5,12 +5,12 @@ import com.sinut.core_data.api.biometric.data.datasource.BiometricDataSource
 import com.sinut.core_data.api.biometric.data.model.BioMetricResponseWithResultModel
 import com.sinut.core_data.api.biometric.data.model.BiometricRequestModel
 import com.sinut.core_data.core.base.BaseUseCase
+import com.sinut.core_data.core.manager.CryptoKeyManager
 import com.sinut.core_data.local.storage.datasource.AppPreferencesDataSource
 import java.util.Base64
 import java.util.UUID
 
 class EnableBiometricAuthUseCase(
-    private val generateKeypairUseCase: GenerateKeypairUseCase,
     private val appPreferencesDataSource: AppPreferencesDataSource,
     private val biometricDataSource: BiometricDataSource,
 ) : BaseUseCase<Unit, BioMetricResponseWithResultModel>() {
@@ -21,7 +21,7 @@ class EnableBiometricAuthUseCase(
     private val drm = MediaDrm(WIDEWINE_UUID)
 
     override suspend fun call(params: Unit): BioMetricResponseWithResultModel {
-        val keypair = generateKeypairUseCase.execute(Unit).getOrThrow()
+        val keypair = CryptoKeyManager.generateKeypair()
 
         appPreferencesDataSource.setPrivateKey(keypair.private)
 

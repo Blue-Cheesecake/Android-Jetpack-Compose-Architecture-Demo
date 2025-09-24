@@ -24,6 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -94,7 +95,7 @@ fun LoginScreen(
                         }"
                     )
                 }) {
-                    Text("List Languages")
+                    Text(stringResource(R.string.list_language))
                 }
                 Spacer(Modifier.height(8.dp))
                 Button({
@@ -116,7 +117,7 @@ fun LoginScreen(
 
                     println("Current: ${AppCompatDelegate.getApplicationLocales()}")
                 }) {
-                    Text("Change Language")
+                    Text(stringResource(R.string.change_language))
                 }
                 Spacer(Modifier.height(8.dp))
                 Button({

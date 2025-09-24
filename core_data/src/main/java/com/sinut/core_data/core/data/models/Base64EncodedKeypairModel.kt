@@ -1,4 +1,4 @@
-package com.sinut.androidsamplearch.domain.model
+package com.sinut.core_data.core.data.models
 
 data class Base64EncodedKeypairModel(
     val public: String,

@@ -1,17 +1,23 @@
 package com.sinut.androidsamplearch.playground
 
-import com.sinut.androidsamplearch.domain.usecase.GenerateKeypairUseCase
-import kotlinx.coroutines.runBlocking
+import com.sinut.core_data.core.manager.CryptoKeyManager
 import java.util.Base64
 
-fun main(): Unit = runBlocking {
-    val g = GenerateKeypairUseCase()
-    val r = g.execute(Unit)
-    Base64.getEncoder()
+fun main() {
+    println("Generating keypair...")
+    val keypair = CryptoKeyManager.generateKeypair()
 
-    r.onSuccess { kp ->
+    println("\nGenerated Public Key (Base64):\n${keypair.public}")
+    println("\nGenerated Private Key (Base64):\n${keypair.private}")
 
-        println("Public key: ${kp.public}")
-        println("Private key: ${kp.private}")
-    }
+    println("\nConverting Base64 to Private Key object...")
+    val privateKeyObject = CryptoKeyManager.convertBase64ToPrivateKey(keypair.private)
+
+    val message = "This is a test message to be signed."
+    val base64EncodedMessage = Base64.getEncoder().encodeToString(message.toByteArray())
+
+    println("\nSigning message: \"$message\"...")
+    val signature = CryptoKeyManager.signMessageBase64(privateKeyObject, base64EncodedMessage)
+
+    println("\nSignature (Base64):\n$signature")
 }
