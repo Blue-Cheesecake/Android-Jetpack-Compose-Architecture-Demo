@@ -36,7 +36,7 @@ class EnableBiometricAuthUseCase(
 
         val request = BiometricRequestModel(
             deviceId = "abc13acb-5abd-47b6-9587-5c1b490a3f39", // mock device id
-            publicKey = keypair.public,
+            publicKey = keypair.publicPEM,
         )
 
         val result = biometricDataSource.postBiometric(request)

@@ -4,14 +4,17 @@ import com.sinut.androidsamplearch.domain.model.Base64EncodedKeypairModel
 import com.sinut.core_data.core.base.BaseUseCase
 import java.security.KeyPairGenerator
 import java.security.SecureRandom
+import java.security.spec.ECGenParameterSpec
 import java.util.Base64
 
 class GenerateKeypairUseCase : BaseUseCase<Unit, Base64EncodedKeypairModel>() {
 
     override suspend fun call(params: Unit): Base64EncodedKeypairModel {
-        val generator = KeyPairGenerator.getInstance("RSA")
+        val generator = KeyPairGenerator.getInstance("EC")
 
-        generator.initialize(2048, SecureRandom())
+        val ecSpec = ECGenParameterSpec("secp256r1")
+
+        generator.initialize(ecSpec, SecureRandom())
 
         val keypair = generator.genKeyPair()
 
