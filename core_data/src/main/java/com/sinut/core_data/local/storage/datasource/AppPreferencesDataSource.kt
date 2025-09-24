@@ -11,7 +11,7 @@ class AppPreferencesDataSource @Inject constructor(private val dataStore: DataSt
         return dataStore.data.first().privateKey
     }
 
-    suspend fun setPrivateKey(value: String) {
+    suspend fun setPrivateKey(value: String?) {
         dataStore.updateData { it.copy(privateKey = value) }
     }
 }

@@ -7,5 +7,5 @@ data class BiometricRequestModel(
     val deviceId: String,
 
     @SerializedName("public_key")
-    val publicKey: String
+    val publicKey: String? = null,
 )

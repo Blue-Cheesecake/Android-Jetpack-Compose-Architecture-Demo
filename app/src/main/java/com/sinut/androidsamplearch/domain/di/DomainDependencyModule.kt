@@ -1,5 +1,6 @@
 package com.sinut.androidsamplearch.domain.di
 
+import com.sinut.androidsamplearch.domain.usecase.DisableBiometricAuthUseCase
 import com.sinut.androidsamplearch.domain.usecase.EnableBiometricAuthUseCase
 import com.sinut.androidsamplearch.domain.usecase.GenerateKeypairUseCase
 import com.sinut.core_data.api.biometric.data.datasource.BiometricDataSource
@@ -32,5 +33,14 @@ internal object DomainDependencyModule {
             appPreferencesDataSource,
             biometricDataSource
         )
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideDisableBiometricAuthUseCase(
+        appPreferencesDataSource: AppPreferencesDataSource,
+        biometricDataSource: BiometricDataSource,
+    ): DisableBiometricAuthUseCase {
+        return DisableBiometricAuthUseCase(appPreferencesDataSource, biometricDataSource)
     }
 }
