@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,17 +25,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sinut.androidsamplearch.R
 import com.sinut.androidsamplearch.features.admin.core.router.AdminNavActions
-import com.sinut.androidsamplearch.features.auth.presentation.composables.LoginCard
 import com.sinut.androidsamplearch.features.auth.presentation.composables.LoginEventListener
 import com.sinut.androidsamplearch.features.auth.presentation.composables.SignUpTitle
-import com.sinut.androidsamplearch.features.auth.presentation.logic.api.LoginApiViewModel
+import com.sinut.androidsamplearch.features.auth.presentation.logic.api.EnableBioAuthState
+import com.sinut.androidsamplearch.features.auth.presentation.logic.api.LoginViewModel
 
 @Composable
 fun LoginScreen(
     navActions: AdminNavActions,
-    loginApiViewModel: LoginApiViewModel = hiltViewModel(),
+    loginApiViewModel: LoginViewModel = hiltViewModel(),
 ) {
     val localFocusManager = LocalFocusManager.current
     LocalContext.current
@@ -44,6 +46,8 @@ fun LoginScreen(
     }
 
     LoginEventListener(navActions, loginApiViewModel) {
+        val loginUiState = loginApiViewModel.uiState.collectAsStateWithLifecycle()
+
         Scaffold { innerPadding ->
             Image(
                 painter = painterResource(R.drawable.landing_background),
@@ -64,15 +68,15 @@ fun LoginScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Spacer(Modifier.weight(0.5F))
-                Box(Modifier.padding(horizontal = 20.dp)) {
-                    LoginCard(
-                        onClickSignIn = {
-                            localFocusManager.clearFocus()
-                        }, onFormValid = {
-                            loginApiViewModel.login(it.username, it.password)
-                        }
-                    )
-                }
+//                Box(Modifier.padding(horizontal = 20.dp)) {
+//                    LoginCard(
+//                        onClickSignIn = {
+//                            localFocusManager.clearFocus()
+//                        }, onFormValid = {
+//                            loginApiViewModel.login(it.username, it.password)
+//                        }
+//                    )
+//                }
                 Spacer(Modifier.height(24.dp))
                 Button({
                     println(LocaleListCompat.getDefault())
@@ -110,6 +114,31 @@ fun LoginScreen(
                 }) {
                     Text("Change Language")
                 }
+                Spacer(Modifier.height(8.dp))
+                Button({
+                    loginApiViewModel.enableBiometric()
+                }) {
+                    Text("Enable Biometric Auth")
+                }
+
+                when (loginUiState.value.enableBioAuthState) {
+                    is EnableBioAuthState.Idle -> {
+                        Box {}
+                    }
+
+                    is EnableBioAuthState.Loading -> {
+                        CircularProgressIndicator()
+                    }
+
+                    is EnableBioAuthState.Success -> {
+                        Text("Biometric auth enabled successfully")
+                    }
+
+                    is EnableBioAuthState.Error -> {
+                        Text("Failed to enable biometric auth")
+                    }
+                }
+
                 Spacer(Modifier.height(8.dp))
                 Button({
                     navActions.goToAdminList()

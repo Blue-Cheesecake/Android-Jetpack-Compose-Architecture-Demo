@@ -9,10 +9,14 @@ abstract class BaseUseCase<P, R> {
 
     protected abstract suspend fun call(params: P): R
 
+    protected open fun finallyCb() {}
+
     suspend fun execute(params: P): Result<R> {
         val result = runCatching<R> {
             val response = call(params)
             response
+        }.apply {
+            finallyCb()
         }
 
         return result.onFailure {

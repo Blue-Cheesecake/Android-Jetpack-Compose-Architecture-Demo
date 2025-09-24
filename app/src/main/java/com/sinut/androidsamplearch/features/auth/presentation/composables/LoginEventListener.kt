@@ -16,25 +16,25 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sinut.androidsamplearch.common.composables.CommonDialog
 import com.sinut.androidsamplearch.features.admin.core.router.AdminNavActions
 import com.sinut.androidsamplearch.features.auth.presentation.logic.api.LoginApiState
-import com.sinut.androidsamplearch.features.auth.presentation.logic.api.LoginApiViewModel
+import com.sinut.androidsamplearch.features.auth.presentation.logic.api.LoginViewModel
 import com.sinut.core_data.core.session.AppSession
 import com.sinut.core_data.core.session.data.models.UserSessionModel
 
 @Composable
 fun LoginEventListener(
     navActions: AdminNavActions,
-    loginViewModel: LoginApiViewModel,
+    loginViewModel: LoginViewModel,
     child: @Composable () -> Unit,
 ) {
     val loginApiState = loginViewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(loginApiState.value) {
-        when (loginApiState.value) {
+        when (loginApiState.value.loginApiState) {
             is LoginApiState.Success -> {
-                val s = loginApiState.value as LoginApiState.Success
+                val s = loginApiState.value.loginApiState as LoginApiState.Success
 
                 loginViewModel.invalidate()
-                
+
                 AppSession.userSession =
                     UserSessionModel(s.token)
 
@@ -47,19 +47,22 @@ fun LoginEventListener(
 
     child()
 
-    when (loginApiState.value) {
+    when (loginApiState.value.loginApiState) {
         LoginApiState.Loading -> Box(
             Modifier
                 .fillMaxSize()
                 .background(Color.Black.copy(alpha = 0.5F))
-                .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) {},
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) {},
             contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator()
         }
 
         is LoginApiState.Error -> {
-            val errMsg = (loginApiState.value as LoginApiState.Error).message
+            val errMsg = (loginApiState.value.loginApiState as LoginApiState.Error).message
 
             CommonDialog(
                 onDismissRequest = { loginViewModel.invalidate() },
