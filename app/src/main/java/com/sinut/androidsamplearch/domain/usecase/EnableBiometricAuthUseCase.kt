@@ -18,14 +18,17 @@ class EnableBiometricAuthUseCase(
         private val WIDEWINE_UUID = UUID(-0x121074568629b532L, -0x5c37d8232ae2de13L)
     }
 
-    private val drm = MediaDrm(WIDEWINE_UUID)
 
     override suspend fun call(params: Unit): BioMetricResponseWithResultModel {
         val keypair = CryptoKeyManager.generateKeypair()
 
         appPreferencesDataSource.setPrivateKey(keypair.private)
 
+        val drm = MediaDrm(WIDEWINE_UUID)
+
         val deviceIdBytes = drm.getPropertyByteArray(MediaDrm.PROPERTY_DEVICE_UNIQUE_ID)
+
+        drm.close()
 
         val encoder = Base64.getEncoder()
 
@@ -42,10 +45,6 @@ class EnableBiometricAuthUseCase(
         val result = biometricDataSource.postBiometric(request)
 
         return result
-    }
-
-    override fun finallyCb() {
-        drm.close()
     }
 }
 

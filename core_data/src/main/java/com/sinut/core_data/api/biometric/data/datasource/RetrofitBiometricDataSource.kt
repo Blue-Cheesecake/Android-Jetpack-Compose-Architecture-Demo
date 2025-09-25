@@ -8,6 +8,7 @@ import com.sinut.core_data.api.biometric.data.model.BiometricRequestModel
 import com.sinut.core_data.api.biometric.data.model.BiometricResponseModel
 import retrofit2.Retrofit
 import retrofit2.http.Body
+import retrofit2.http.HTTP
 import retrofit2.http.POST
 import javax.inject.Inject
 
@@ -15,7 +16,7 @@ private interface BiometricRetrofit {
     @POST(BiometricApiPath.MAIN)
     suspend fun postBiometric(@Body req: BiometricRequestModel): BioMetricResponseWithResultModel
 
-    @POST(BiometricApiPath.MAIN)
+    @HTTP(method = "DELETE", path = BiometricApiPath.MAIN, hasBody = true)
     suspend fun deleteBiometric(@Body req: BiometricRequestModel): BiometricResponseModel
 
     @POST(BiometricApiPath.CHALLENGE)

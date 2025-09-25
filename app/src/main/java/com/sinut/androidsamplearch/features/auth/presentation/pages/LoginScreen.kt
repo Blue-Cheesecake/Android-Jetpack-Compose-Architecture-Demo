@@ -33,6 +33,7 @@ import com.sinut.androidsamplearch.R
 import com.sinut.androidsamplearch.features.admin.core.router.AdminNavActions
 import com.sinut.androidsamplearch.features.auth.presentation.composables.LoginEventListener
 import com.sinut.androidsamplearch.features.auth.presentation.composables.SignUpTitle
+import com.sinut.androidsamplearch.features.auth.presentation.logic.api.DisableBioAuthState
 import com.sinut.androidsamplearch.features.auth.presentation.logic.api.EnableBioAuthState
 import com.sinut.androidsamplearch.features.auth.presentation.logic.api.LoginViewModel
 
@@ -147,12 +148,40 @@ fun LoginScreen(
                     is EnableBioAuthState.Success -> {
                         val response =
                             loginUiState.value.enableBioAuthState as EnableBioAuthState.Success
-                        Text("Biometric auth enabled successfully")
+                        Text("Biometric auth is enabled!")
                         Text("biometric id ${response.result.result.biometricId}")
                     }
 
                     is EnableBioAuthState.Error -> {
                         Text("Failed to enable biometric auth")
+                    }
+                }
+
+                Spacer(Modifier.height(8.dp))
+                Button({
+                    loginApiViewModel.disableBiometric()
+                }) {
+                    Text("Disable Biometric Auth")
+                }
+
+                when (loginUiState.value.disableBioAuthState) {
+                    is DisableBioAuthState.Idle -> {
+                        Box {}
+                    }
+
+                    is DisableBioAuthState.Loading -> {
+                        CircularProgressIndicator()
+                    }
+
+                    is DisableBioAuthState.Success -> {
+                        val response =
+                            loginUiState.value.disableBioAuthState as DisableBioAuthState.Success
+                        Text("Biometric auth is disabled!")
+                        Text("Message: ${response.result.message}")
+                    }
+
+                    is DisableBioAuthState.Error -> {
+                        Text("Failed to disable biometric auth")
                     }
                 }
 

@@ -25,6 +25,8 @@ abstract class BaseUseCase<P, R> {
     }
 
     private fun <T> handleException(e: Throwable): Result<T> {
+        println("Error ka e here. $e")
+
         if (e is HttpException) {
             val errorBody = e.response()?.errorBody()
 

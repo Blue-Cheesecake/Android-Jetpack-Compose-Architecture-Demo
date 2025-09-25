@@ -3,6 +3,7 @@ package com.sinut.androidsamplearch.features.auth.presentation.logic.api
 import androidx.lifecycle.viewModelScope
 import com.sinut.androidsamplearch.core.base.BaseViewModel
 import com.sinut.androidsamplearch.core.constants.CommonMessage
+import com.sinut.androidsamplearch.domain.usecase.DisableBiometricAuthUseCase
 import com.sinut.androidsamplearch.domain.usecase.EnableBiometricAuthUseCase
 import com.sinut.core_data.api.auth.data.models.LoginRequestModel
 import com.sinut.core_data.api.auth.domain.usecases.LoginUseCase
@@ -13,7 +14,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
-    private val enableBiometricAuthUseCase: EnableBiometricAuthUseCase
+    private val enableBiometricAuthUseCase: EnableBiometricAuthUseCase,
+    private val disableBiometricAuthUseCase: DisableBiometricAuthUseCase,
 ) :
     BaseViewModel<LoginUiState>(LoginUiState()) {
 
@@ -41,7 +43,12 @@ class LoginViewModel @Inject constructor(
     fun invalidate() = setState { it.copy(loginApiState = LoginApiState.Idle) }
 
     fun enableBiometric() {
-        setState { it.copy(enableBioAuthState = EnableBioAuthState.Loading) }
+        setState {
+            it.copy(
+                enableBioAuthState = EnableBioAuthState.Loading,
+                disableBioAuthState = DisableBioAuthState.Idle
+            )
+        }
 
         viewModelScope.launch {
             enableBiometricAuthUseCase.execute(Unit)
@@ -58,6 +65,33 @@ class LoginViewModel @Inject constructor(
                     setState {
                         it.copy(
                             enableBioAuthState = EnableBioAuthState.Error(
+                                err.message ?: CommonMessage.SOMETHING_WRONG
+                            )
+                        )
+                    }
+                }
+        }
+    }
+
+    fun disableBiometric() {
+        setState {
+            it.copy(
+                disableBioAuthState = DisableBioAuthState.Loading,
+                enableBioAuthState = EnableBioAuthState.Idle
+            )
+        }
+
+        viewModelScope.launch {
+            disableBiometricAuthUseCase.execute(Unit)
+                .onSuccess { response ->
+                    setState {
+                        it.copy(disableBioAuthState = DisableBioAuthState.Success(response))
+                    }
+                }
+                .onFailure { err ->
+                    setState {
+                        it.copy(
+                            disableBioAuthState = DisableBioAuthState.Error(
                                 err.message ?: CommonMessage.SOMETHING_WRONG
                             )
                         )
