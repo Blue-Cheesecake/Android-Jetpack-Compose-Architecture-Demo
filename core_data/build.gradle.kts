@@ -101,6 +101,9 @@ dependencies {
     // Serialization
     implementation(libs.kotlinx.serialization.json)
 
+    // Crypto
+    implementation(libs.bcprovider)
+
     implementation(libs.androidx.datastore.preferences)
 
     implementation(libs.androidx.core.ktx)

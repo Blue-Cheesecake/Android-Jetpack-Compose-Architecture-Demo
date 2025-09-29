@@ -116,6 +116,9 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
 
+    // Crypto
+    implementation(libs.bcprovider)
+
     // Local
     implementation(project(":core_data"))
 

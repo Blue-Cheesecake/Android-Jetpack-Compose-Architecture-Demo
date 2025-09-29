@@ -2,6 +2,8 @@ package com.sinut.core_data.api.biometric.data.datasource
 
 import com.sinut.core_data.api.biometric.data.constant.BiometricApiPath
 import com.sinut.core_data.api.biometric.data.model.BioMetricResponseWithResultModel
+import com.sinut.core_data.api.biometric.data.model.BiometricAuthenRequestModel
+import com.sinut.core_data.api.biometric.data.model.BiometricAuthenResponseModel
 import com.sinut.core_data.api.biometric.data.model.BiometricChallengeRequestModel
 import com.sinut.core_data.api.biometric.data.model.BiometricPostChallengeResponseModel
 import com.sinut.core_data.api.biometric.data.model.BiometricRequestModel
@@ -21,6 +23,9 @@ private interface BiometricRetrofit {
 
     @POST(BiometricApiPath.CHALLENGE)
     suspend fun postChallenge(@Body req: BiometricChallengeRequestModel): BiometricPostChallengeResponseModel
+
+    @POST(BiometricApiPath.AUTHENTICATE)
+    suspend fun postAuthenticate(@Body req: BiometricAuthenRequestModel): BiometricAuthenResponseModel
 }
 
 class RetrofitBiometricDataSource @Inject constructor(private val retrofit: Retrofit) :
@@ -40,6 +45,12 @@ class RetrofitBiometricDataSource @Inject constructor(private val retrofit: Retr
     override suspend fun postChallenge(req: BiometricChallengeRequestModel): BiometricPostChallengeResponseModel {
         val service = retrofit.create(BiometricRetrofit::class.java)
         val response = service.postChallenge(req)
+        return response
+    }
+
+    override suspend fun postAuthenticate(req: BiometricAuthenRequestModel): BiometricAuthenResponseModel {
+        val service = retrofit.create(BiometricRetrofit::class.java)
+        val response = service.postAuthenticate(req)
         return response
     }
 }

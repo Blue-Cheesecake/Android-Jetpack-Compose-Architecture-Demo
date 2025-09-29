@@ -41,8 +41,8 @@ object CryptoKeyManager {
         return privateKey
     }
 
-    fun signMessageBase64(privateKey: PrivateKey, data: String): String {
-        val decodedBytes = Base64.getDecoder().decode(data)
+    fun signMessage(privateKey: PrivateKey, data: String): String {
+        val decodedBytes = data.toByteArray(Charsets.UTF_8)
 
         val signedBytes = signMessage(privateKey, decodedBytes)
 
